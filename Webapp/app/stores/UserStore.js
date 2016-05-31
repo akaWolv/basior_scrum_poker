@@ -85,6 +85,7 @@ SocketSession.on('user_details', function (msg) {
 SocketSession.on('user_not_found', function () {
     console.log('user_not_found');
     UserStore.emit(UserConstants.EVENT_USER_NOT_FOUND);
+    clearUserDetails();
 });
 
 SocketSession.on('register_user_success', function () {

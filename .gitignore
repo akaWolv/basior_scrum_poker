@@ -1,5 +1,6 @@
 Server/node_modules/
 Server/.idea/
+Server/data/db/
 Webapp/node_modules/
 Webapp/.idea/
 .idea/
