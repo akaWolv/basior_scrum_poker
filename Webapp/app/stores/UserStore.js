@@ -13,7 +13,6 @@ var _userDetails = {
     room_id: Cookies.get('_userDetails.room_id')
 };
 
-
 function clearUserDetails() {
     _userDetails.id = undefined;
     _userDetails.name = undefined;
@@ -90,6 +89,10 @@ SocketSession.on('user_not_found', function () {
 
 SocketSession.on('register_user_success', function () {
     UserStore.emit(UserConstants.EVENT_USER_REGISTERED);
+});
+
+SocketSession.on('register_user_already_exists', function () {
+    UserStore.emit(UserConstants.EVENT_REGISTER_USER_ALREADY_EXISTS);
 });
 
 SocketSession.on('register_user_fail', function () {

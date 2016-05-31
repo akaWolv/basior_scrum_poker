@@ -83,7 +83,7 @@ const texts = {
     voting_status: 'voting status: ',
     voting_status_text: {},
     connected_info: 'users connected: ',
-    user_status: 'Users status',
+    user_status: 'Users votes',
     start_new_voting: 'Start new voting',
     stop_voting: 'End voting',
     finish_voting: 'Finish and show values',

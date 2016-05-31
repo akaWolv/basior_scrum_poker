@@ -20,7 +20,7 @@ import BackBox from '../components/BackBox.jsx';
 
 const styles = {
     paper: {
-        height: 450,
+        height: 475,
         marginBottom: 10,
         padding: 20
     },
@@ -55,7 +55,8 @@ const texts = {
     user_name_invalid: 'Invalid name',
     user_password_invalid: 'Invalid password',
     user_password_confirm_invalid: 'Paswords not match',
-    save_button: 'Continue'
+    save_button: 'Continue',
+    user_name_already_exists: 'User already exists'
 };
 
 class UserDetails extends React.Component {
@@ -65,9 +66,9 @@ class UserDetails extends React.Component {
             user_name:  '',
             user_password:  '',
             user_password_confirm:  '',
-            user_name_valid: true,
-            user_password_valid: true,
-            user_password_confirm_valid: true
+            user_name_error: false,
+            user_password_error: false,
+            user_password_confirm_error: false
         };
         this.listeners = {};
     }
@@ -83,30 +84,37 @@ class UserDetails extends React.Component {
     collectInputValue(event) {
         let stateToSet = {};
         stateToSet[event.target.name] = event.target.value;
-        stateToSet.user_name_valid = true;
-        stateToSet.user_password_valid = true;
-        stateToSet.user_password_confirm_valid = true;
+        stateToSet.user_name_valid = false;
+        stateToSet.user_password_valid = false;
+        stateToSet.user_password_confirm_valid = false;
         this.setState(stateToSet);
     }
 
     handleSave() {
         var stateToSet = {};
 
-        stateToSet.user_name_valid = this.state.user_name.length > 0;
-        stateToSet.user_password_valid = this.state.user_password.length > 0;
-        stateToSet.user_password_confirm_valid = this.state.user_password_confirm == this.state.user_password;
+        stateToSet.user_name_error = this.state.user_name.length > 0 ? false : texts.user_name_invalid;
+        stateToSet.user_password_error = this.state.user_password.length > 0 ? false : texts.user_password_invalid;
+        stateToSet.user_password_confirm_error = this.state.user_password_confirm == this.state.user_password ? false : texts.user_password_confirm_invalid;
 
-        if (false === stateToSet.user_name_valid || false === stateToSet.user_password_valid || false === stateToSet.user_password_confirm_valid) {
+        if (false !== stateToSet.user_name_error || false !== stateToSet.user_password_error || false !== stateToSet.user_password_confirm_error) {
             this.setState(stateToSet);
         } else {
             if (undefined == this.listeners.user_registered) {
                 this.listeners.user_registered = UserStore.registerListener(UserConstants.EVENT_USER_REGISTERED, this.onUserRegistered.bind(this));
             }
+            if (undefined == this.listeners.user_already_exists) {
+                this.listeners.user_already_exists = UserStore.registerListener(UserConstants.EVENT_REGISTER_USER_ALREADY_EXISTS, this.onUserAlreadyExists.bind(this));
+            }
             UserActions.registerNewUser(this.state.user_name, this.state.user_password);
         }
     }
+
     onUserRegistered() {
         StateMachine.changeState(StatesConstants.WELCOME_USER);
+    }
+    onUserAlreadyExists() {
+        this.setState({user_name_error: texts.user_name_already_exists});
     }
 
     render() {
@@ -126,7 +134,7 @@ class UserDetails extends React.Component {
                                             name="user_name"
                                             value={this.state.user_name}
                                             onChange={this.collectInputValue.bind(this)}
-                                            errorText={this.state.user_name_valid ? '' : texts.user_name_invalid} />
+                                            errorText={this.state.user_name_error} />
                                         <TextField
                                             floatingLabelText={texts.input_label_user_password}
                                             hintText={texts.input_label_user_password}
@@ -135,7 +143,7 @@ class UserDetails extends React.Component {
                                             type="password"
                                             value={this.state.user_password}
                                             onChange={this.collectInputValue.bind(this)}
-                                            errorText={this.state.user_password_valid ? '' : texts.user_password_invalid} />
+                                            errorText={this.state.user_password_error} />
                                         <TextField
                                             floatingLabelText={texts.input_label_user_password_confirm}
                                             hintText={texts.input_label_user_password_confirm}
@@ -144,7 +152,7 @@ class UserDetails extends React.Component {
                                             type="password"
                                             value={this.state.user_password_confirm}
                                             onChange={this.collectInputValue.bind(this)}
-                                            errorText={this.state.user_password_confirm_valid ? '' : texts.user_password_confirm_invalid} />
+                                            errorText={this.state.user_password_confirm_error} />
                                     </div>
                                     <RaisedButton
                                         label={texts.save_button}

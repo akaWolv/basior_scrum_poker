@@ -89,7 +89,7 @@ const texts = {
     connected_info: 'users connected: ',
     room_password_invalid: '...or password',
     voting_status: 'voting status: ',
-    user_status: 'Users status',
+    user_status: 'Users votes',
     voting_status_text: {}
 };
 texts.voting_status_text[VotingConstants.STATUS_PENDING] = 'pending';
@@ -181,24 +181,20 @@ class PreviewRoom extends React.Component {
                                 <Paper style={styles.paper} zDepth={1}>
                                     <h4>{texts.box_title}: {this.state.room_name}</h4>
                                     <p>
-                                        users in room:
-                                        <b>{Object.keys(this.state.room_users).length}</b>
+                                        users in room: <b>{Object.keys(this.state.room_users).length}</b>
                                     </p>
                                     <p>
-                                        {texts.admin_name}
-                                        <b>{
+                                        {texts.admin_name} <b>{
                                             undefined != this.state.room_users[this.state.room_admin]
                                                 ? this.state.room_users[this.state.room_admin].name
                                                 : 'unknown'
                                         }</b>
                                     </p>
                                     <p>
-                                        {texts.connected_info}
-                                        <b>{Object.keys(this.state.room_users).length}</b>
+                                        {texts.connected_info} <b>{Object.keys(this.state.room_users).length}</b>
                                     </p>
                                     <p>
-                                        {texts.voting_status}
-                                        <b>{texts.voting_status_text[this.state.voting_status]}</b>
+                                        {texts.voting_status} <b>{texts.voting_status_text[this.state.voting_status]}</b>
                                     </p>
                                 </Paper>
                             </center>
