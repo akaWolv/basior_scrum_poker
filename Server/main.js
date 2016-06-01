@@ -122,6 +122,14 @@ function application() {
 
                             saveUserConnection();
                         });
+                    } else {
+                        socket.emit(EMIT_REGISTER_USER_SUCCESS);
+                        infoLog(EMIT_REGISTER_USER_SUCCESS);
+
+                        // join private user channel
+                        socket.join('user_' + socket.user_details.id);
+
+                        saveUserConnection();
                     }
                 } else {
                     socket.emit(EMIT_USER_NOT_FOUND);
