@@ -1,0 +1,28 @@
+{
+  "name": "devfuze_scrum_poker",
+  "version": "2.0.0",
+  "description": "http://localhost:8080/",
+  "scripts": {
+    "install-server": "cd Server && npm install --ignore-optional",
+    "install-webapp": "cd Webapp && npm install --ignore-optional",
+    "install": "npm run install-server | npm run install-webapp",
+
+    "start-server": "cd Server && npm start",
+    "start-webapp": "cd Webapp && npm run build",
+    "start": "npm run start-server | npm run start-webapp",
+
+    "start:dev-server": "cd ./Server && npm run start:dev",
+    "start:dev-webapp": "cd ./Webapp && npm run start:dev",
+    "start:dev": "npm run start:dev-server | npm run start:dev-webapp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akaWolv/devfuze_scrum_poker.git"
+  },
+  "author": "Pawel Wolv Nejczew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akaWolv/devfuze_scrum_poker/issues"
+  },
+  "homepage": "https://github.com/akaWolv/devfuze_scrum_poker#readme"
+}

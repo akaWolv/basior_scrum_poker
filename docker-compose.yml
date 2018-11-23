@@ -1,0 +1,38 @@
+version: '2.2'
+services:
+  node:
+    image: "node:10.13-alpine"
+    container_name: docker-devfuze_scrum_poker-node
+    restart: always
+    user: "node"
+    working_dir: /usr/app
+    build: .
+    command: npm run start:dev
+    volumes:
+      - .:/usr/app
+    ports:
+      - "3003:3003"
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=production
+      - MONGO_HOST=docker-devfuze_scrum_poker-mongo
+      - MONGO_USER=root
+      - MONGO_PASS=example
+  mongo:
+    image: mongo:latest
+    container_name: docker-devfuze_scrum_poker-mongo
+    restart: always
+    ports:
+      - 27017:27017
+  nginx:
+    image: nginx:latest
+    container_name: docker-devfuze_scrum_poker-nginx
+    restart: always
+    logging:
+        driver: none
+    ports:
+      - "8080:80"
+    volumes:
+      - ./Webapp/dist:/code
+      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf

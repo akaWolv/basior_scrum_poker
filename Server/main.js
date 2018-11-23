@@ -3,12 +3,12 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var crypto = require('crypto');
 var uuid = require('uuid');
-var mongojs = require('mongojs');
+// var mongojs = require('mongojs');
 var _ = require('underscore');
 
 //var db = mongojs('mongodb://localhost:27017/devfuze_scrum_poker', ['users', 'rooms', 'votings']);
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/devfuze_scrum_poker';
+var url = 'mongodb://' + process.env.MONGO_HOST + ':27017/devfuze_scrum_poker';
 var db = {};
 
 MongoClient.connect(url, function (err, database) {
@@ -151,7 +151,7 @@ function application() {
             if (undefined != msg.name && undefined != msg.password) {
                 // if user not exists create new
                 findUserByName(msg.name, function (err, docs) {
-                    if (undefined == docs[0]) {
+                    if (undefined == docs || undefined == docs[0]) {
                         socket.user_details = {
                             id: uuid.v4(),
                             name: msg.name,

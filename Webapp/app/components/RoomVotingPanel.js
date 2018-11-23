@@ -4,7 +4,6 @@ import {blue100, lime500, grey400, deepOrange400} from 'material-ui/styles/color
 import VotingStore from '../stores/VotingStore';
 import VotingConstants from '../constants/VotingConstants';
 import VotingActions from '../actions/VotingActions';
-import ReactSwipe from 'react-swipe';
 
 import {List, ListItem} from 'material-ui/List';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';

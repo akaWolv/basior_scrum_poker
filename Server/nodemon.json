@@ -1,0 +1,8 @@
+{
+  "events": {
+    "restart": "npm start:dev",
+    "start": "npm start:dev",
+    "crash": "echo NODEMON: error",
+    "exit": "echo NODEMON: exit"
+  }
+}

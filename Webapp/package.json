@@ -35,8 +35,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack-dev-server --progress --colors --content-base dist"
+    "start": "webpack",
+    "start:dev-server": "webpack-dev-server --watch --progress --colors --content-base dist",
+    "start:dev": "webpack --watch --progress --colors --content-base dist"
   },
   "repository": {
     "type": "git",
