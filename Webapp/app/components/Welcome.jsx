@@ -104,10 +104,6 @@ class Welcome extends React.Component {
                                         <RaisedButton label={texts.button_new_user} primary={true}
                                                       style={styles.button_welcome}/>
                                     </Link>
-                                    <Link to={'/login_user'}>
-                                        <RaisedButton label={texts.button_existing_user} primary={true}
-                                                      style={styles.button_welcome}/>
-                                    </Link>
                                     {
                                         undefined != this.state.user_name
                                             ?

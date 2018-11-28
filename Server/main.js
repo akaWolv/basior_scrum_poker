@@ -148,31 +148,22 @@ function application() {
          * REGISTER_NEW_USER
          */
         socket.on(REGISTER_NEW_USER, function (msg) {
-            if (undefined != msg.name && undefined != msg.password) {
-                // if user not exists create new
-                findUserByName(msg.name, function (err, docs) {
-                    if (undefined == docs || undefined == docs[0]) {
-                        socket.user_details = {
-                            id: uuid.v4(),
-                            name: msg.name,
-                            password: msg.password,
-                            room_id: undefined
-                        };
+            if (undefined != msg.name) {
+                socket.user_details = {
+                    id: uuid.v4(),
+                    name: msg.name,
+                    room_id: undefined
+                };
 
-                        saveUser();
+                saveUser();
 
-                        socket.emit(EMIT_REGISTER_USER_SUCCESS);
-                        infoLog(EMIT_REGISTER_USER_SUCCESS, socket.user_details);
+                socket.emit(EMIT_REGISTER_USER_SUCCESS);
+                infoLog(EMIT_REGISTER_USER_SUCCESS, socket.user_details);
 
-                        // join private user channel
-                        socket.join('user_' + socket.user_details.id);
+                // join private user channel
+                socket.join('user_' + socket.user_details.id);
 
-                        saveUserConnection();
-                    } else {
-                        socket.emit(EMIT_REGISTER_USER_ALREADY_EXISTS);
-                        infoLog(EMIT_REGISTER_USER_ALREADY_EXISTS);
-                    }
-                })
+                saveUserConnection();
             } else {
                 socket.emit(EMIT_REGISTER_USER_FAIL);
                 infoLog(EMIT_REGISTER_USER_FAIL);

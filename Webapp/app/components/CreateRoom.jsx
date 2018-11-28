@@ -154,6 +154,7 @@ class CreateRoom extends React.Component {
                                             errorText={this.state.room_password_valid ? '' : texts.room_password_invalid} />
                                         <SelectField
                                             name='sequence'
+                                            disable={'disabled'}
                                             value={this.state.sequence}
                                             onChange={this.handleSequenceChange.bind(this)}
                                             style={styles.select_input} >
@@ -190,11 +191,6 @@ CreateRoom.defaultProps = {
             value: 'fibonacci-1-21',
             text: 'Fibbonacci 1-21',
             hint: '1, 3, 5, 8, 13, 21'
-        },
-        {
-            value: 'fibonacci-1-100',
-            text: 'Fibbonacci 1-100',
-            hint: '1, 3, 5, 8, 13, 21 ... 100'
         }
     ]
 };

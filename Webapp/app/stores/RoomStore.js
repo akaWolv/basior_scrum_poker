@@ -15,7 +15,8 @@ var _roomDetails = {
     sequence: undefined,
     admin: undefined,
     users: {},
-    voting_status: undefined
+    voting_status: undefined,
+    password: undefined
 };
 
 var RoomStore = Object.assign({}, StoreMixin, EventEmitter.prototype, {
@@ -92,7 +93,8 @@ SocketSession.on('room_details', function (msg) {
         sequence: msg.sequence,
         admin: msg.admin,
         users: msg.users,
-        voting_status: msg.voting_status
+        voting_status: msg.voting_status,
+        password: msg.password
     };
 
     RoomStore.emit(RoomConstants.EVENT_CHANGE_ROOM_DETAILS);

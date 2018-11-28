@@ -8,8 +8,8 @@ var UserActions = {
     registerUserByNameAndPassword: function(name, password) {
         AppDispatcher.handleViewAction(UserConstants.ACTION_REGISTER_USER_BY_NAME_AND_PASSWORD, {name, password});
     },
-    registerNewUser: function(name, password) {
-        AppDispatcher.handleViewAction(UserConstants.ACTION_REGISTER_NEW_USER, {name, password});
+    registerNewUser: function(name) {
+        AppDispatcher.handleViewAction(UserConstants.ACTION_REGISTER_NEW_USER, {name});
     },
     clearUserDetails: function(details) {
         AppDispatcher.handleViewAction(UserConstants.ACTION_CLEAR_USER_DETAILS, details);

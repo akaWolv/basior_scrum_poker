@@ -151,19 +151,5 @@ CreateRoom.contextTypes = {
         return React.PropTypes.func.isRequired;
     }
 };
-CreateRoom.defaultProps = {
-    available_sequences: [
-        {
-            value: 'fibonacci-1-21',
-            text: 'Fibbonacci 1-21',
-            hint: '1, 3, 5, 8, 13, 21'
-        },
-        {
-            value: 'fibonacci-1-100',
-            text: 'Fibbonacci 1-100',
-            hint: '1, 3, 5, 8, 13, 21 ... 100'
-        }
-    ]
-};
 
 export default CreateRoom;

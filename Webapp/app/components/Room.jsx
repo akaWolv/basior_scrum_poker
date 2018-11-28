@@ -79,6 +79,7 @@ const styles = {
 
 const texts = {
     header: 'Room: ',
+    password: 'Passowrd: ',
     admin_name: 'room admin: ',
     voting_status: 'voting status: ',
     voting_status_text: {},
@@ -104,6 +105,7 @@ class Room extends React.Component {
         this.state = {
             room_id: roomDetails.id,
             room_name: roomDetails.name,
+            room_password: roomDetails.password,
             room_sequence: roomDetails.sequence,
             room_admin: roomDetails.admin,
             room_users: roomDetails.users,
@@ -143,6 +145,7 @@ class Room extends React.Component {
             room_name: roomDetails.name,
             room_sequence: roomDetails.sequence,
             room_admin: roomDetails.admin,
+            room_password: roomDetails.password,
             room_users: roomDetails.users,
             voting_status: roomDetails.voting_status
         });
@@ -299,6 +302,10 @@ class Room extends React.Component {
                                 <div style={styles.text_box_info}>
                                     <h4>{texts.header}{this.state.room_name}</h4>
                                     <div style={styles.text_box_info_details}>
+                                        <p>
+                                            {texts.password}
+                                            <b>{this.state.room_password}</b>
+                                        </p>
                                         <p>
                                             {texts.admin_name}
                                             <b>{

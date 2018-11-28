@@ -43742,8 +43742,8 @@
 	    registerUserByNameAndPassword: function registerUserByNameAndPassword(name, password) {
 	        _AppDispatcher2.default.handleViewAction(_UserConstants2.default.ACTION_REGISTER_USER_BY_NAME_AND_PASSWORD, { name: name, password: password });
 	    },
-	    registerNewUser: function registerNewUser(name, password) {
-	        _AppDispatcher2.default.handleViewAction(_UserConstants2.default.ACTION_REGISTER_NEW_USER, { name: name, password: password });
+	    registerNewUser: function registerNewUser(name) {
+	        _AppDispatcher2.default.handleViewAction(_UserConstants2.default.ACTION_REGISTER_NEW_USER, { name: name });
 	    },
 	    clearUserDetails: function clearUserDetails(details) {
 	        _AppDispatcher2.default.handleViewAction(_UserConstants2.default.ACTION_CLEAR_USER_DETAILS, details);
@@ -46015,7 +46015,8 @@
 	    sequence: undefined,
 	    admin: undefined,
 	    users: {},
-	    voting_status: undefined
+	    voting_status: undefined,
+	    password: undefined
 	};
 
 	var RoomStore = Object.assign({}, _StoreMixin2.default, _events.EventEmitter.prototype, {
@@ -46091,7 +46092,8 @@
 	        sequence: msg.sequence,
 	        admin: msg.admin,
 	        users: msg.users,
-	        voting_status: msg.voting_status
+	        voting_status: msg.voting_status,
+	        password: msg.password
 	    };
 
 	    RoomStore.emit(_RoomConstants2.default.EVENT_CHANGE_ROOM_DETAILS);
@@ -46369,12 +46371,6 @@
 	                                        _reactRouter.Link,
 	                                        { to: '/user_details' },
 	                                        _react2.default.createElement(_RaisedButton2.default, { label: texts.button_new_user, primary: true,
-	                                            style: styles.button_welcome })
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        _reactRouter.Link,
-	                                        { to: '/login_user' },
-	                                        _react2.default.createElement(_RaisedButton2.default, { label: texts.button_existing_user, primary: true,
 	                                            style: styles.button_welcome })
 	                                    ),
 	                                    undefined != this.state.user_name ? _react2.default.createElement(_RaisedButton2.default, {
@@ -53188,7 +53184,7 @@
 
 	var styles = {
 	    paper: {
-	        height: 475,
+	        height: 225,
 	        marginBottom: 10,
 	        padding: 20
 	    },
@@ -53196,7 +53192,7 @@
 	        width: '100%'
 	    },
 	    form_box: {
-	        height: '80%',
+	        height: '70%',
 	        width: '100%',
 	        textAlign: 'left'
 	    },
@@ -53217,13 +53213,13 @@
 
 	var texts = {
 	    box_title: 'User details',
-	    input_label_user_name: 'Name',
+	    input_label_user_name: 'Your name',
 	    input_label_user_password: 'Password',
 	    input_label_user_password_confirm: 'Confirm password',
 	    user_name_invalid: 'Invalid name',
 	    user_password_invalid: 'Invalid password',
 	    user_password_confirm_invalid: 'Paswords not match',
-	    save_button: 'Continue',
+	    save_button: 'Save',
 	    user_name_already_exists: 'User already exists'
 	};
 
@@ -53262,8 +53258,6 @@
 	            var stateToSet = {};
 	            stateToSet[event.target.name] = event.target.value;
 	            stateToSet.user_name_valid = false;
-	            stateToSet.user_password_valid = false;
-	            stateToSet.user_password_confirm_valid = false;
 	            this.setState(stateToSet);
 	        }
 	    }, {
@@ -53272,30 +53266,20 @@
 	            var stateToSet = {};
 
 	            stateToSet.user_name_error = this.state.user_name.length > 0 ? false : texts.user_name_invalid;
-	            stateToSet.user_password_error = this.state.user_password.length > 0 ? false : texts.user_password_invalid;
-	            stateToSet.user_password_confirm_error = this.state.user_password_confirm == this.state.user_password ? false : texts.user_password_confirm_invalid;
 
-	            if (false !== stateToSet.user_name_error || false !== stateToSet.user_password_error || false !== stateToSet.user_password_confirm_error) {
+	            if (false !== stateToSet.user_name_error) {
 	                this.setState(stateToSet);
 	            } else {
 	                if (undefined == this.listeners.user_registered) {
 	                    this.listeners.user_registered = _UserStore2.default.registerListener(_UserConstants2.default.EVENT_USER_REGISTERED, this.onUserRegistered.bind(this));
 	                }
-	                if (undefined == this.listeners.user_already_exists) {
-	                    this.listeners.user_already_exists = _UserStore2.default.registerListener(_UserConstants2.default.EVENT_REGISTER_USER_ALREADY_EXISTS, this.onUserAlreadyExists.bind(this));
-	                }
-	                _UserActions2.default.registerNewUser(this.state.user_name, this.state.user_password);
+	                _UserActions2.default.registerNewUser(this.state.user_name);
 	            }
 	        }
 	    }, {
 	        key: 'onUserRegistered',
 	        value: function onUserRegistered() {
 	            _StateMachine2.default.changeState(_StatesConstants2.default.WELCOME_USER);
-	        }
-	    }, {
-	        key: 'onUserAlreadyExists',
-	        value: function onUserAlreadyExists() {
-	            this.setState({ user_name_error: texts.user_name_already_exists });
 	        }
 	    }, {
 	        key: 'render',
@@ -53333,25 +53317,7 @@
 	                                            name: 'user_name',
 	                                            value: this.state.user_name,
 	                                            onChange: this.collectInputValue.bind(this),
-	                                            errorText: this.state.user_name_error }),
-	                                        _react2.default.createElement(_TextField2.default, {
-	                                            floatingLabelText: texts.input_label_user_password,
-	                                            hintText: texts.input_label_user_password,
-	                                            style: styles.text_input,
-	                                            name: 'user_password',
-	                                            type: 'password',
-	                                            value: this.state.user_password,
-	                                            onChange: this.collectInputValue.bind(this),
-	                                            errorText: this.state.user_password_error }),
-	                                        _react2.default.createElement(_TextField2.default, {
-	                                            floatingLabelText: texts.input_label_user_password_confirm,
-	                                            hintText: texts.input_label_user_password_confirm,
-	                                            style: styles.text_input,
-	                                            name: 'user_password_confirm',
-	                                            type: 'password',
-	                                            value: this.state.user_password_confirm,
-	                                            onChange: this.collectInputValue.bind(this),
-	                                            errorText: this.state.user_password_confirm_error })
+	                                            errorText: this.state.user_name_error })
 	                                    ),
 	                                    _react2.default.createElement(_RaisedButton2.default, {
 	                                        label: texts.save_button,
@@ -63102,6 +63068,7 @@
 	                                            _SelectField2.default,
 	                                            {
 	                                                name: 'sequence',
+	                                                disable: 'disabled',
 	                                                value: this.state.sequence,
 	                                                onChange: this.handleSequenceChange.bind(this),
 	                                                style: styles.select_input },
@@ -63143,10 +63110,6 @@
 	        value: 'fibonacci-1-21',
 	        text: 'Fibbonacci 1-21',
 	        hint: '1, 3, 5, 8, 13, 21'
-	    }, {
-	        value: 'fibonacci-1-100',
-	        text: 'Fibbonacci 1-100',
-	        hint: '1, 3, 5, 8, 13, 21 ... 100'
 	    }]
 	};
 
@@ -63395,17 +63358,6 @@
 	        return _react2.default.PropTypes.func.isRequired;
 	    }
 	};
-	CreateRoom.defaultProps = {
-	    available_sequences: [{
-	        value: 'fibonacci-1-21',
-	        text: 'Fibbonacci 1-21',
-	        hint: '1, 3, 5, 8, 13, 21'
-	    }, {
-	        value: 'fibonacci-1-100',
-	        text: 'Fibbonacci 1-100',
-	        hint: '1, 3, 5, 8, 13, 21 ... 100'
-	    }]
-	};
 
 	exports.default = CreateRoom;
 
@@ -63571,6 +63523,7 @@
 
 	var texts = {
 	    header: 'Room: ',
+	    password: 'Passowrd: ',
 	    admin_name: 'room admin: ',
 	    voting_status: 'voting status: ',
 	    voting_status_text: {},
@@ -63600,6 +63553,7 @@
 	        _this.state = {
 	            room_id: roomDetails.id,
 	            room_name: roomDetails.name,
+	            room_password: roomDetails.password,
 	            room_sequence: roomDetails.sequence,
 	            room_admin: roomDetails.admin,
 	            room_users: roomDetails.users,
@@ -63641,6 +63595,7 @@
 	                room_name: roomDetails.name,
 	                room_sequence: roomDetails.sequence,
 	                room_admin: roomDetails.admin,
+	                room_password: roomDetails.password,
 	                room_users: roomDetails.users,
 	                voting_status: roomDetails.voting_status
 	            });
@@ -63889,6 +63844,16 @@
 	                                    _react2.default.createElement(
 	                                        'div',
 	                                        { style: styles.text_box_info_details },
+	                                        _react2.default.createElement(
+	                                            'p',
+	                                            null,
+	                                            texts.password,
+	                                            _react2.default.createElement(
+	                                                'b',
+	                                                null,
+	                                                this.state.room_password
+	                                            )
+	                                        ),
 	                                        _react2.default.createElement(
 	                                            'p',
 	                                            null,
