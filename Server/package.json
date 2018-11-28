@@ -1,8 +1,8 @@
 {
-  "name": "devfuze_scrum_poker",
+  "name": "basior_scrum_poker",
   "main": "main.js",
   "version": "0.0.1",
-  "description": "devfuze scrum poker solution",
+  "description": "basior scrum poker solution",
   "dependencies": {
     "express": "^4.10.2",
     "mongodb": "^2.1.20",

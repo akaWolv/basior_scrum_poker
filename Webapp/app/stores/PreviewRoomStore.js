@@ -26,7 +26,6 @@ var PreviewRoomStore = Object.assign({}, StoreMixin, EventEmitter.prototype, {
     dispatcherIndex: AppDispatcher.register(function (payload) {
         switch (payload.action) {
             case PreviewRoomConstants.ACTION_PREVIEW_ROOM_BY_ID:
-                console.log({id: payload.details.id});
                 SocketSession.emit('preview_room', {id: payload.details.id});
                 break;
             case PreviewRoomConstants.ACTION_PREVIEW_ROOM_BY_NAME_AND_PASSWORD:
@@ -67,7 +66,6 @@ SocketSession.on('preview_room_connected', function (msg) {
 });
 
 SocketSession.on('preview_room_not_found', function () {
-    console.log('preview_room_not_found');
     PreviewRoomStore.emit(PreviewRoomConstants.EVENT_PREVIEW_ROOM_NOT_FOUND);
 });
 

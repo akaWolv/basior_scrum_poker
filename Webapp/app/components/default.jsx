@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 
 class Default extends React.Component {
     render() {
-        console.log(this.props);
         return (
             <div>
                 Welcome!<br />

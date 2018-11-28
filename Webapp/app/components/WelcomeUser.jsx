@@ -39,7 +39,7 @@ const styles = {
 const texts = {
     user_hello_1: 'Hello ',
     user_hello_2: ',',
-    welcome_header: 'Devfuze Scrum Poker'
+    welcome_header: 'Scrum Poker (by basior.net)'
 };
 
 class WelcomeUser extends React.Component {
@@ -66,7 +66,6 @@ class WelcomeUser extends React.Component {
     }
 
     onChangeUserDetails() {
-        console.log(UserStore.getUserDetails());
         this.setState({user_details: UserStore.getUserDetails()});
     }
 

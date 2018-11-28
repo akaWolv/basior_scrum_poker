@@ -99,19 +99,16 @@ var VotingStore = Object.assign({}, StoreMixin, EventEmitter.prototype, {
 //});
 
 SocketSession.on('users_already_voted', function (msg) {
-    console.log('users_already_voted', msg);
     _votingDetails.users_already_voted = msg;
     VotingStore.emit(VotingConstants.EVENT_USERS_ALREADY_VOTED);
 });
 
 SocketSession.on('users_votes', function (msg) {
-    console.log('users_votes', msg);
     _votingDetails.users_votes = msg;
     VotingStore.emit(VotingConstants.EVENT_USERS_VOTES);
 });
 
 SocketSession.on('user_last_vote', function (msg) {
-    console.log('user_last_vote', msg);
     _votingDetails.vote = msg;
     VotingStore.emit(VotingConstants.EVENT_USER_VOTE);
 });

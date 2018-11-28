@@ -219,7 +219,6 @@ class RoomVotingPanel extends React.Component {
         return returnStyle;
     }
     handlePickVote(picked) {
-        console.log(picked);
         this.setState({vote_picked: picked});
         VotingActions.vote(picked);
     }

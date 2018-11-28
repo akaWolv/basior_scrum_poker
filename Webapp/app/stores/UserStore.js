@@ -68,7 +68,6 @@ var UserStore = Object.assign({}, StoreMixin, EventEmitter.prototype, {
 });
 
 SocketSession.on('user_details', function (msg) {
-    console.log('user_details', msg);
     _userDetails.id = msg.id;
     _userDetails.name = msg.name;
     _userDetails.room_id = undefined != msg.room_id ? msg.room_id : undefined;
@@ -82,7 +81,6 @@ SocketSession.on('user_details', function (msg) {
 });
 
 SocketSession.on('user_not_found', function () {
-    console.log('user_not_found');
     UserStore.emit(UserConstants.EVENT_USER_NOT_FOUND);
     clearUserDetails();
 });

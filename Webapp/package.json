@@ -1,7 +1,7 @@
 {
-  "name": "devfuze_scrum_poker",
+  "name": "basior_scrum_poker",
   "version": "0.0.1",
-  "description": "devfuze scrum poker solution",
+  "description": "basior scrum poker solution",
   "main": "main.js",
   "dependencies": {
     "babel-polyfill": "^6.7.4",
@@ -41,17 +41,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/akaWolv/devfuze_scrum_poker.git"
+    "url": "https://github.com/akaWolv/basior_scrum_poker.git"
   },
   "keywords": [
-    "devfuze",
+    "basior",
     "scrum",
     "poker"
   ],
   "author": "Pavel 'Wolv' Nejczew",
   "license": "CC-BY-4.0",
   "bugs": {
-    "url": "https://github.com/akaWolv/devfuze_scrum_poker/issues"
+    "url": "https://github.com/akaWolv/basior_scrum_poker/issues"
   },
-  "homepage": "https://github.com/akaWolv/devfuze_scrum_poker"
+  "homepage": "https://github.com/akaWolv/basior_scrum_poker"
 }

@@ -32,7 +32,7 @@ import ActionDone from 'material-ui/svg-icons/action/done';
 import ActionHourGlass from 'material-ui/svg-icons/action/hourglass-empty';
 import ActionEventSeat from 'material-ui/svg-icons/action/event-seat';
 import {blue100, orange400, lime500, grey400} from 'material-ui/styles/colors';
-import DevFuze from '../components/DevFuze';
+import Basior from '../components/Basior';
 
 const styles = {
     paper: {
@@ -160,7 +160,6 @@ class PreviewRoom extends React.Component {
                 return <ActionHourGlass style={styles.users_list_status_icon} color={orange400}/>;
             }
         } else if (VotingConstants.STATUS_FINISHED === this.state.voting_status) {
-            console.log(this.state.users_votes);
             if (undefined != this.state.users_votes[usersId]) {
                 return <span style={styles.users_list_status_icon}><b>{this.state.users_votes[usersId]}</b></span>;
             } else {
@@ -210,7 +209,7 @@ class PreviewRoom extends React.Component {
                             <center>
                                 <Paper style={styles.paper_footer} zDepth={1}>
                                     <div style={styles.footer_container}>
-                                        Brought to you by <DevFuze />
+                                        Brought to you by <Basior />
                                     </div>
                                 </Paper>
                             </center>

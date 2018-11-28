@@ -82,7 +82,6 @@ SocketSession.on('join_room_fail', function () {
 });
 
 SocketSession.on('room_not_found', function () {
-    console.log('room_not_found');
     RoomStore.emit(RoomConstants.EVENT_ROOM_NOT_FOUND);
 });
 

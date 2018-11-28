@@ -2,7 +2,7 @@ version: '2.2'
 services:
   node:
     image: "node:10.13-alpine"
-    container_name: docker-devfuze_scrum_poker-node
+    container_name: docker-basior_scrum_poker-node
     restart: always
     user: "node"
     working_dir: /usr/app
@@ -16,18 +16,18 @@ services:
       - mongo
     environment:
       - NODE_ENV=production
-      - MONGO_HOST=docker-devfuze_scrum_poker-mongo
+      - MONGO_HOST=docker-basior_scrum_poker-mongo
       - MONGO_USER=root
       - MONGO_PASS=example
   mongo:
     image: mongo:latest
-    container_name: docker-devfuze_scrum_poker-mongo
+    container_name: docker-basior_scrum_poker-mongo
     restart: always
     ports:
       - 27017:27017
   apache:
     image: webdevops/apache:latest
-    container_name: docker-devfuze_scrum_poker-apache
+    container_name: docker-basior_scrum_poker-apache
     restart: always
     ports:
         - 8080:80

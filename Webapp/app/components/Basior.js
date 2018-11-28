@@ -3,8 +3,9 @@ import React from 'react';
 const styles = {
     button: {
         display: 'inline',
-        fontSize: 15,
-        width: 150,
+        fontSize: 20,
+        width: 190,
+        height: 50,
         padding: 5,
         backgroundColor: 'black',
         color: 'white',
@@ -24,21 +25,20 @@ const styles = {
     }
 };
 
-class DevFuze extends React.Component {
+class Basior extends React.Component {
     handleOnClick() {
-        window.open("http://devfuze.com");
+        window.open("http://basior.net");
     }
     render() {
         return (
             <button style={styles.button} onClick={this.handleOnClick.bind(this)}>
-                <b>
-                    <span style={styles.color_green}>devFuze</span>(!){<span style={styles.color_purple}>com</span>}
-                </b>
+                <img src={'http://basior.net/img/wolf_white.svg'} style={{height: 35, verticalAlign: 'middle', marginRight: 5}}/>
+                <span style={{lineHeight: '40px'}}>Basior.net</span>
             </button>
         );
     }
 }
 
-export default DevFuze;
+export default Basior;
 
 

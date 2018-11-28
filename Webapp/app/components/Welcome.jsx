@@ -36,7 +36,7 @@ const texts = {
     button_existing_user: 'Use existing details',
     button_continue_as_part_1: 'Continue as ',
     button_spectate: 'Spectate',
-    welcome_header: 'Devfuze Scrum Poker',
+    welcome_header: 'Scrum Poker (by basior.net)',
     welcome_text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pretium, lorem id imperdiet.',
     info: '<b>Planning poker</b>, also called <b>Scrum poker</b>, is a consensus-based, gamified technique for estimating, ' +
     'mostly used to estimate effort or relative size of development goals in software development. <br /><br />In planning poker, ' +

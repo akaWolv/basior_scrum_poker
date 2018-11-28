@@ -149,8 +149,6 @@ class Room extends React.Component {
     }
 
     detectAdminChange(oldValue, newValue) {
-        console.log(oldValue, newValue, UserStore.getUserId());
-        console.log((oldValue != newValue && newValue == UserStore.getUserId()));
         if (undefined != oldValue && oldValue != newValue && newValue == UserStore.getUserId()) {
             alert('You are admin now!');
         }
@@ -281,7 +279,6 @@ class Room extends React.Component {
                 return <ActionHourGlass style={styles.users_list_status_icon} color={orange400} />;
             }
         } else if (VotingConstants.STATUS_FINISHED === this.state.voting_status) {
-            console.log(this.state.users_votes);
             if (undefined != this.state.users_votes[usersId]) {
                 return <span style={styles.users_list_status_icon}><b>{this.state.users_votes[usersId]}</b></span>;
             } else {
