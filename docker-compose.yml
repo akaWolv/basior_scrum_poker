@@ -16,9 +16,9 @@ services:
       - mongo
     environment:
       - NODE_ENV=production
-      - MONGO_HOST=docker-basior_scrum_poker-mongo
-      - MONGO_USER=root
-      - MONGO_PASS=example
+      - BASIOR_SCRUM_POKER__MONGO_HOST=docker-basior_scrum_poker-mongo
+      - BASIOR_SCRUM_POKER__MONGO_USER=root
+      - BASIOR_SCRUM_POKER__MONGO_PASS=example
   mongo:
     image: mongo:latest
     container_name: docker-basior_scrum_poker-mongo

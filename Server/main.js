@@ -8,7 +8,7 @@ var _ = require('underscore');
 
 //var db = mongojs('mongodb://localhost:27017/basior_scrum_poker', ['users', 'rooms', 'votings']);
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://' + process.env.MONGO_HOST + ':27017/basior_scrum_poker';
+var url = 'mongodb://' + process.env.BASIOR_SCRUM_POKER__MONGO_HOST + ':27017/basior_scrum_poker';
 var db = {};
 
 MongoClient.connect(url, function (err, database) {
