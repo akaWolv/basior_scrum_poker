@@ -13,5 +13,6 @@ export default {
     ROOM: '/room',
     VOTING: '/voting',
     RESULTS: '/results',
-    NO_MATCH: '*'
+    NO_MATCH: '*',
+    CONNECTION_PROBLEM: '/connection_problem'
 };

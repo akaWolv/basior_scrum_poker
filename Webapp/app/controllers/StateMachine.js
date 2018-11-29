@@ -24,6 +24,7 @@ import Voting from '../components/default.jsx'
 import Results from '../components/default.jsx'
 import NoMatch from '../components/default.jsx'
 import NoAccess from '../components/NoAccess.jsx'
+import ConnectionProblem from '../components/ConnectionProblem.jsx'
 
 const _statesHandlers = {
     Welcome: {register_user_only: false},
@@ -35,10 +36,12 @@ const _statesHandlers = {
     Room: {register_user_only: true},
     Voting: {register_user_only: true},
     Results: {register_user_only: true},
-    NoMatch: {register_user_only: false}
+    NoMatch: {register_user_only: false},
+    ConnectionProblem: {register_user_only: false},
 };
 
 
+var _pathList = [];
 var _pathName = undefined;
 
 class StateMachine extends React.Component {
@@ -48,15 +51,35 @@ class StateMachine extends React.Component {
 
         browserHistory.listen(function (ev) {
             _pathName = ev.pathname;
-            console.log(_pathName);
+            _pathList.unshift(_pathName);
+            _pathList.slice(0, 5);
+        });
+
+        if (!SocketSession.connected) {
+            if (StateMachine.getCurrentPath() !== StatesConstants.CONNECTION_PROBLEM) {
+                StateMachine.changeState(StatesConstants.CONNECTION_PROBLEM);
+            }
+
+            SocketSession.on('connect', function() {
+
+                console.log(_pathList);
+                if (undefined !== _pathList[1] && StatesConstants.CONNECTION_PROBLEM !== _pathList[1]) {
+                    StateMachine.changeState(_pathList[1]);
+                } else {
+                    StateMachine.changeState(StatesConstants.WELCOME);
+                }
+            });
+        }
+
+        SocketSession.on('disconnect', function() {
+            if (StateMachine.getCurrentPath() !== StatesConstants.CONNECTION_PROBLEM) {
+                StateMachine.changeState(StatesConstants.CONNECTION_PROBLEM);
+            }
         });
 
         SocketSession.on('introduce_yourself', function () {
-            console.log('introduce_yourself : request received');
             var usersId = Cookies.get('_userDetails.id');
-            console.log("Cookies.get('_userDetails.id')", usersId);
             if (undefined != usersId) {
-                console.log('introduce_yourself : sending handshake');
                 UserActions.registerUserById(usersId);
             } else {
                 console.log('introduce_yourself : unknown user - no details saved');
@@ -87,6 +110,10 @@ class StateMachine extends React.Component {
         return NoAccess;
     }
 
+    static getCurrentPath() {
+        return _pathName;
+    }
+
     render() {
         return (
             <Router history={browserHistory}>
@@ -105,6 +132,7 @@ class StateMachine extends React.Component {
                 <Route path={StatesConstants.ROOM} component={Room}/>
                 <Route path={StatesConstants.VOTING} component={Voting}/>
                 <Route path={StatesConstants.RESULTS} component={Results}/>
+                <Route path={StatesConstants.CONNECTION_PROBLEM} component={ConnectionProblem}/>
                 <Route path={StatesConstants.NO_MATCH} component={NoMatch}/>
             </Router>
         )

@@ -35103,6 +35103,10 @@
 
 	var _NoAccess2 = _interopRequireDefault(_NoAccess);
 
+	var _ConnectionProblem = __webpack_require__(620);
+
+	var _ConnectionProblem2 = _interopRequireDefault(_ConnectionProblem);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35121,9 +35125,11 @@
 	    Room: { register_user_only: true },
 	    Voting: { register_user_only: true },
 	    Results: { register_user_only: true },
-	    NoMatch: { register_user_only: false }
+	    NoMatch: { register_user_only: false },
+	    ConnectionProblem: { register_user_only: false }
 	};
 
+	var _pathList = [];
 	var _pathName = undefined;
 
 	var StateMachine = function (_React$Component) {
@@ -35138,15 +35144,35 @@
 
 	        _reactRouter.browserHistory.listen(function (ev) {
 	            _pathName = ev.pathname;
-	            console.log(_pathName);
+	            _pathList.unshift(_pathName);
+	            _pathList.slice(0, 5);
+	        });
+
+	        if (!_SocketSession2.default.connected) {
+	            if (StateMachine.getCurrentPath() !== _StatesConstants2.default.CONNECTION_PROBLEM) {
+	                StateMachine.changeState(_StatesConstants2.default.CONNECTION_PROBLEM);
+	            }
+
+	            _SocketSession2.default.on('connect', function () {
+
+	                console.log(_pathList);
+	                if (undefined !== _pathList[1] && _StatesConstants2.default.CONNECTION_PROBLEM !== _pathList[1]) {
+	                    StateMachine.changeState(_pathList[1]);
+	                } else {
+	                    StateMachine.changeState(_StatesConstants2.default.WELCOME);
+	                }
+	            });
+	        }
+
+	        _SocketSession2.default.on('disconnect', function () {
+	            if (StateMachine.getCurrentPath() !== _StatesConstants2.default.CONNECTION_PROBLEM) {
+	                StateMachine.changeState(_StatesConstants2.default.CONNECTION_PROBLEM);
+	            }
 	        });
 
 	        _SocketSession2.default.on('introduce_yourself', function () {
-	            console.log('introduce_yourself : request received');
 	            var usersId = _cookiesJs2.default.get('_userDetails.id');
-	            console.log("Cookies.get('_userDetails.id')", usersId);
 	            if (undefined != usersId) {
-	                console.log('introduce_yourself : sending handshake');
 	                _UserActions2.default.registerUserById(usersId);
 	            } else {
 	                console.log('introduce_yourself : unknown user - no details saved');
@@ -35184,6 +35210,7 @@
 	                _react2.default.createElement(_reactRouter.Route, { path: _StatesConstants2.default.ROOM, component: _Room2.default }),
 	                _react2.default.createElement(_reactRouter.Route, { path: _StatesConstants2.default.VOTING, component: _default2.default }),
 	                _react2.default.createElement(_reactRouter.Route, { path: _StatesConstants2.default.RESULTS, component: _default2.default }),
+	                _react2.default.createElement(_reactRouter.Route, { path: _StatesConstants2.default.CONNECTION_PROBLEM, component: _ConnectionProblem2.default }),
 	                _react2.default.createElement(_reactRouter.Route, { path: _StatesConstants2.default.NO_MATCH, component: _default2.default })
 	            );
 	        }
@@ -35200,6 +35227,11 @@
 	            }
 
 	            return _NoAccess2.default;
+	        }
+	    }, {
+	        key: 'getCurrentPath',
+	        value: function getCurrentPath() {
+	            return _pathName;
 	        }
 	    }]);
 
@@ -46183,7 +46215,8 @@
 	    ROOM: '/room',
 	    VOTING: '/voting',
 	    RESULTS: '/results',
-	    NO_MATCH: '*'
+	    NO_MATCH: '*',
+	    CONNECTION_PROBLEM: '/connection_problem'
 	};
 
 /***/ }),
@@ -66064,6 +66097,67 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ }),
+/* 620 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(26);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(64);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRouter = __webpack_require__(199);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ConnectionProblem = function (_React$Component) {
+	    _inherits(ConnectionProblem, _React$Component);
+
+	    function ConnectionProblem() {
+	        _classCallCheck(this, ConnectionProblem);
+
+	        return _possibleConstructorReturn(this, (ConnectionProblem.__proto__ || Object.getPrototypeOf(ConnectionProblem)).apply(this, arguments));
+	    }
+
+	    _createClass(ConnectionProblem, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { style: { color: 'whitesmoke', textAlign: 'center' } },
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    'Server Connection Problem'
+	                ),
+	                _react2.default.createElement('br', null),
+	                'Hamster feeding time...'
+	            );
+	        }
+	    }]);
+
+	    return ConnectionProblem;
+	}(_react2.default.Component);
+
+	exports.default = ConnectionProblem;
 
 /***/ })
 /******/ ]);
